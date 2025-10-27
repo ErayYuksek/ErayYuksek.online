@@ -1120,7 +1120,11 @@
             </div>
         </div>
     </section>
-         
+            <div style="text-align: center; margin-top: 2rem;">
+                <a href="https://github.com/ErayYuksek" target="_blank" class="social-btn" style="display: inline-flex;">
+                    <span>View My GitHub Profile</span>
+                </a>
+            </div>
         </div>
     </section>
 
@@ -1174,18 +1178,15 @@
             const form = this;
             const formData = new FormData(form);
             
+            // Disable submit button to prevent double submission
+            const submitBtn = form.querySelector('.submit-btn');
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Gönderiliyor...';
+            
             // Send email using FormSubmit
             fetch('https://formsubmit.co/ajax/erayacount@gmail.com', {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Accept': 'application/json'
-                },
-                body: JSON.stringify({
-                    name: formData.get('name'),
-                    email: formData.get('email'),
-                    message: formData.get('message')
-                })
+                body: formData
             })
             .then(response => response.json())
             .then(data => {
@@ -1194,6 +1195,11 @@
             })
             .catch(error => {
                 showNotification('Bir hata oluştu. Tekrar deneyin.');
+                console.error('Error:', error);
+            })
+            .finally(() => {
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Send Message';
             });
         });
 

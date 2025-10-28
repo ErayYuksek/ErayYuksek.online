@@ -822,6 +822,28 @@
                 font-size: 0.9rem;
             }
         }
+
+        /* Toast bildirim */
+        .notification {
+            position: fixed;
+            right: 24px;
+            bottom: 24px;
+            background: #323232;
+            color: #fff;
+            padding: 12px 16px;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            opacity: 0;
+            transform: translateY(16px);
+            transition: opacity 0.25s ease, transform 0.25s ease;
+            z-index: 9999;
+            font-size: 0.95rem;
+        }
+
+        .notification.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
     </style>
 </head>
 <body>
@@ -933,7 +955,7 @@
         <div class="education-grid">
             <div class="education-card">
                 <div class="education-logo">
-                    <img src="img/Ufuk.png" alt="Ufuk University">
+                    <img src="img/ufuk.png" alt="Ufuk University">
                 </div>
                 <div class="education-info">
                     <h3>Ufuk University</h3>
@@ -943,7 +965,7 @@
 
             <div class="education-card">
                 <div class="education-logo">
-                    <img src="img/Ufuk.png" alt="Ufuk University">
+                    <img src="img/ufuk.png" alt="Ufuk University">
                 </div>
                 <div class="education-info">
                     <h3>Ufuk University</h3>
@@ -1120,14 +1142,18 @@
             </div>
         </div>
     </section>
-        
+            <div style="text-align: center; margin-top: 2rem;">
+                <a href="https://github.com/ErayYuksek" target="_blank" class="social-btn" style="display: inline-flex;">
+                    <span>View My GitHub Profile</span>
+                </a>
+            </div>
         </div>
     </section>
 
     <section id="contact" class="contact-section">
         <h2 class="contact-title">Contact</h2>
         <p class="contact-text">Let's connect and collaborate on innovative projects.</p>
-        <form class="contact-form">
+        <form class="contact-form" method="POST" action="https://formspree.io/f/mzzkeaqz">
             <div class="form-group">
                 <input type="text" name="name" placeholder="Name" required>
             </div>
@@ -1137,7 +1163,9 @@
             <div class="form-group">
                 <textarea name="message" placeholder="Message" required></textarea>
             </div>
-            <button type="submit" class="submit-btn">Send Message</button>
+            <input type="hidden" name="_subject" value="Yeni İletişim Mesajı">
+            <input type="hidden" name="_captcha" value="false">
+            <button type="submit" class="submit-btn">Mesajı Gönder</button>
         </form>
     </section>
 
@@ -1173,29 +1201,59 @@
             
             const form = this;
             const formData = new FormData(form);
+            // FormSubmit zorunlu alanlar
+            formData.append('_subject', 'Yeni İletişim Mesajı');
+            formData.append('_captcha', 'false');
             
             // Disable submit button to prevent double submission
             const submitBtn = form.querySelector('.submit-btn');
             submitBtn.disabled = true;
             submitBtn.textContent = 'Gönderiliyor...';
             
-            // Send email using FormSubmit
-            fetch('https://formsubmit.co/ajax/erayacount@gmail.com', {
+            // Send email using FormSubmit with timeout
+            const controller = new AbortController();
+            const timeoutId = setTimeout(() => controller.abort(), 12000); // 12 sn
+
+            const formspreeUrl = 'https://formspree.io/f/mzzkeaqz';
+            // Form action'ı tek kaynaktan güncel kalsın
+            form.action = formspreeUrl;
+
+            fetch(formspreeUrl, {
                 method: 'POST',
-                body: formData
+                headers: { 'Accept': 'application/json' },
+                body: formData,
+                signal: controller.signal
             })
-            .then(response => response.json())
+            .then(async response => {
+                clearTimeout(timeoutId);
+                if (!response.ok) {
+                    const text = await response.text().catch(() => '');
+                    throw new Error('HTTP ' + response.status + ' ' + text);
+                }
+                return response.json();
+            })
             .then(data => {
-                showNotification('Email gönderildi! Teşekkürler.');
+                if (data.ok === true) {
+                    showNotification('Mesajınız gönderildi. Teşekkürler!');
+                } else {
+                    showNotification('Beklenmeyen yanıt. Lütfen tekrar deneyin.');
+                }
                 form.reset();
             })
             .catch(error => {
-                showNotification('Bir hata oluştu. Tekrar deneyin.');
+                const msg = error.name === 'AbortError'
+                    ? 'Ağ zaman aşımı. Lütfen internetinizi kontrol edip tekrar deneyin.'
+                    : 'Gönderim başarısız. Lütfen tekrar deneyin.';
+                showNotification(msg);
                 console.error('Error:', error);
+                // Ağ zaman aşımında normal form POST'una geri dön
+                if (error.name === 'AbortError') {
+                    form.submit();
+                }
             })
             .finally(() => {
                 submitBtn.disabled = false;
-                submitBtn.textContent = 'Send Message';
+                submitBtn.textContent = 'Mesajı Gönder';
             });
         });
 

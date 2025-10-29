@@ -4,9 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Eray Yüksek - Backend Developer</title>
-<link rel="icon" type="image/png" href="img/logom.png?v=1">
-
-
+    <link rel="icon" type="image/png" href="img/logom.png">
     <style>
         * {
             margin: 0;
@@ -26,14 +24,14 @@
             margin: 0 auto;
             padding: 4rem 3rem 3rem 3rem;
             display: grid;
-            grid-template-columns: 300px 1fr;
+            grid-template-columns: 340px 1fr;
             gap: 3rem;
             align-items: start;
         }
 
         .profile-image {
-            width: 300px;
-            height: 300px;
+            width: 340px;
+            height: 340px;
             border-radius: 50%;
             object-fit: cover;
             border: 3px solid #333;
@@ -228,7 +226,7 @@
         .certificates-section {
             max-width: 1400px;
             margin: 0 auto;
-            padding: 3rem 3rem 4rem 3rem;
+            padding: 3rem 3rem 1rem 3rem;
         }
 
         .certificates-title {
@@ -244,6 +242,7 @@
             display: grid;
             grid-template-columns: repeat(2, 1fr);
             gap: 2rem;
+            margin-bottom: 1.25rem;
         }
 
         .certificate-card {
@@ -418,6 +417,91 @@
             color: #000000;
             transform: translateY(-2px);
             box-shadow: 0 5px 15px rgba(255, 255, 255, 0.3);
+        }
+
+        .certificate-button {
+            background: linear-gradient(180deg, rgba(255,255,255,0.08), rgba(255,255,255,0.02));
+            border: 1px solid rgba(255,255,255,0.6);
+            color: #ffffff;
+            padding: 0.75rem 1.75rem;
+            border-radius: 28px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            letter-spacing: 0.3px;
+            transition: all 0.25s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            box-shadow: inset 0 1px 0 rgba(255,255,255,0.2), 0 6px 18px rgba(0,0,0,0.35);
+        }
+
+        .certificate-button:hover {
+            background: #ffffff;
+            color: #000000;
+            transform: translateY(-1px);
+            box-shadow: 0 10px 24px rgba(255, 255, 255, 0.25);
+            border-color: #ffffff;
+        }
+
+        .location-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(255,255,255,0.06);
+            border: 1px solid rgba(255,255,255,0.2);
+            color: #ffffff;
+            padding: 0.5rem 0.9rem;
+            border-radius: 999px;
+            font-size: 0.95rem;
+            letter-spacing: 0.2px;
+            backdrop-filter: blur(6px);
+        }
+
+        .location-row {
+            display: flex;
+            justify-content: center;
+            margin-top: 1rem;
+        }
+
+        .hero-meta {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin: 0.75rem 0 1.25rem 0;
+        }
+
+        .certificate-actions {
+            margin-top: 1rem;
+        }
+
+        .certificates-actions {
+            text-align: center;
+            margin-top: 2rem;
+            margin-bottom: 0;
+        }
+
+        /* Bağlantı durumu bildirimi */
+        .notification {
+            position: fixed;
+            right: 24px;
+            bottom: 24px;
+            background: #323232;
+            color: #fff;
+            padding: 12px 16px;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            opacity: 0;
+            transform: translateY(16px);
+            transition: opacity 0.25s ease, transform 0.25s ease;
+            z-index: 9999;
+            font-size: 0.95rem;
+        }
+
+        .notification.show {
+            opacity: 1;
+            transform: translateY(0);
         }
 
         .github-section {
@@ -722,8 +806,8 @@
 
             .profile-image {
                 margin: 0 auto;
-                width: 220px;
-                height: 220px;
+                width: 240px;
+                height: 240px;
             }
 
             .hero-content h1 {
@@ -950,6 +1034,8 @@
             <a href="https://github.com/ErayYuksek" class="social-btn" target="_blank"><span>Github</span></a>
             <a href="https://www.linkedin.com/in/eray-y-6a671a322/" class="social-btn" target="_blank"><span>Linkedin</span></a>
         </div>
+
+        
     </section>
 
     <section id="education" class="education-section">
@@ -995,6 +1081,7 @@
                     <span class="skill-badge">Angular</span>
                     <span class="skill-badge">SQL</span>
                 </div>
+                
             </div>
 
             <div class="certificate-card">
@@ -1013,6 +1100,7 @@
                     <span class="skill-badge">.NET</span>
                     <span class="skill-badge">ASP.NET MVC</span>
                 </div>
+                
             </div>
 
             <div class="certificate-card">
@@ -1031,6 +1119,7 @@
                     <span class="skill-badge">Visual Studio</span>
                     <span class="skill-badge">AWS</span>
                 </div>
+                
             </div>
 
             <div class="certificate-card">
@@ -1048,7 +1137,12 @@
                     <span class="skill-badge">Angular</span>
                     <span class="skill-badge">SQL</span>
                 </div>
+                
             </div>
+        </div>
+        <br>
+        <div class="certificates-actions">
+            <a href="https://www.linkedin.com/in/eray-y-6a671a322/details/certifications/" target="_blank" class="certificate-button">View Certificates</a>
         </div>
     </section>
 
@@ -1285,6 +1379,46 @@
                 }, 300);
             }, 3000);
         }
+    </script>
+    <div id="offlineToast" class="notification" role="status" aria-live="polite" style="display:none;">You're offline. Some content may be unavailable.</div>
+
+    <script>
+        (function () {
+            var toast = document.getElementById('offlineToast');
+            var hideTimer;
+
+            function show(message, persist) {
+                if (!toast) return;
+                toast.textContent = message;
+                toast.style.display = 'block';
+                toast.classList.add('show');
+                if (hideTimer) clearTimeout(hideTimer);
+                if (!persist) {
+                    hideTimer = setTimeout(function () {
+                        toast.classList.remove('show');
+                        hideTimer = setTimeout(function(){ toast.style.display = 'none'; }, 250);
+                    }, 2500);
+                }
+            }
+
+            function hide() {
+                if (!toast) return;
+                toast.classList.remove('show');
+                setTimeout(function(){ toast.style.display = 'none'; }, 250);
+            }
+
+            window.addEventListener('offline', function () {
+                show("You're offline. Some content may be unavailable.", true);
+            });
+
+            window.addEventListener('online', function () {
+                show('Back online', false);
+            });
+
+            if (!navigator.onLine) {
+                show("You're offline. Some content may be unavailable.", true);
+            }
+        })();
     </script>
 </body>
 </html>
